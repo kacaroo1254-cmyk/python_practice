@@ -15,5 +15,5 @@ def flash(pin_no, times):
         led_controller.value(0)
         time.sleep_ms(300)
     
-flash(4, 5)
+flash(4, 6)
     
