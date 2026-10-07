@@ -11,7 +11,6 @@ flag_500ms = False
 flag_1000ms = False
 
 isr_cnt = 0  # 인터럽트가 세는 ms (메인은 건드리지 않는다)
-job_step = 0
 
 def timer_isr(t):
     global isr_cnt, flag_10ms, flag_250ms, flag_500ms, flag_1000ms
@@ -31,25 +30,13 @@ def task_10ms():
     pass
 
 def task_100ms():
-    global job_step
     flash.value(flash.value() ^ 1)
-    if job_step > 0:
-        print("1 조각", 4 - job_step, "/3")
-        job_step -= 1
 
 def task_500ms():
-    global job_step
     red.value(red.value() ^ 1)
-    job_step = 3
-    print("300ms 일 시작 > 3조각으로 분할")
-
-last = time.ticks_ms()
 
 def task_1000ms():
-    global last
-    now = time.ticks_ms()
-    print("1초 간격 측정:", time.ticks_diff(now, last), "ms")
-    last = now
+    print("1초 경과")
 
 tmr = Timer(0)
 tmr.init(period=1, mode=Timer.PERIODIC, callback=timer_isr)
@@ -74,4 +61,3 @@ except KeyboardInterrupt:
     flash.value(0)
     red.value(1)
     print("타이머 정지")
-
