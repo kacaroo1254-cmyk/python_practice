@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.pyc
+드론교제_통합.pdf
+
+# PyCharm·가상환경
+.venv/
+.idea/
