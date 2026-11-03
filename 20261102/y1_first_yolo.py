@@ -1,7 +1,7 @@
 from ultralytics import YOLO            # ultralytics 꾸러미에서 YOLO 설계도 하나를 꺼낸다
 
 # ---- 내가 바꾸는 값 ----
-PHOTO = "cat2.jpg"                       # 같은 폴더에 있는 사진 이름 (따옴표 안의 이름만 바꾼다)
+PHOTO = "cat5.jpg"                       # 같은 폴더에 있는 사진 이름 (따옴표 안의 이름만 바꾼다)
 
 model = YOLO("yolo26n.pt")              # 설계도 YOLO 로 model 을 만든다 : yolo26n.pt 는 이미 배워 둔 결과 파일 (처음 한 번만 내려받는다)
 results = model(PHOTO)                  # model 에 사진을 건네면 YOLO 의 답 묶음(results)이 돌아온다
@@ -13,5 +13,5 @@ for box in result.boxes:                # 찾은 물체(네모)를 하나씩 꺼
     confidence = float(box.conf[0])             # box.conf[0] 은 자신감 : float 로 소수(0 ~ 1)로 바꾼다
     print(name, round(confidence, 2))           # 이름과 자신감을 소수 둘째 자리까지 보여 준다
 
-result.save("cat2_yolo_result.jpg")          # 네모를 그린 사진을 yolo_result.jpg 파일로 저장한다
+result.save("cat5_yolo_result.jpg")          # 네모를 그린 사진을 yolo_result.jpg 파일로 저장한다
 print("yolo_result.jpg 로 저장했다")
