@@ -10,7 +10,12 @@ CONF = 0.25                             # 자신감 기준 : 자신감이 이 �
 WANT = "person"                         # 찾고 싶은 이름 (따옴표 안에 쓴다)
 
 model = YOLO("yolo26n.pt")              # 가장 작은 YOLO 파일을 불러와 model 이라는 이름을 붙인다
-results = model(PHOTO, conf=CONF, verbose=False)   # 사진을 보여 준다 (자신감 기준 적용, 자동 출력 줄은 끈다)
+results = model(PHOTO,
+                conf=CONF,
+                verbose=False,
+                save=True,
+                project = "C:/sjs/python/pjt/20261109",
+                name = "street_result")   # 사진을 보여 준다 (자신감 기준 적용, 자동 출력 줄은 끈다)
 result = results[0]                     # 답 묶음의 0번째 = 사진 한 장에 대한 답
 
 count = 0                               # 센 사람 수 : 처음에는 0
