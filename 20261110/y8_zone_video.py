@@ -21,15 +21,13 @@ results = model(VIDEO,
                 verbose=False,
                 save=True,
                 name="zone_결과")
-import cv2                              # 사진에 선을 그리는 도구 상자(cv2)를 가져온다
+
 
 
 frame = 0
 alerts = 0                              # 경고가 난 사진(프레임)의 수
 most = 0                                # 구역 안에서 가장 많았던 수
 for result in results:
-    img = result.plot(labels=False)  # 네모만 그려진 사진을 꺼낸다 (이름 글자는 뺀다)
-    cv2.rectangle(img, (ZX1, ZY1), (ZX2, ZY2), (0, 255, 255), 10)  # 구역을 노란 네모로 그려 넣는다 (노랑, 두께 10)
     inside = 0
     for box in result.boxes:
         name = result.names[int(box.cls[0])]
