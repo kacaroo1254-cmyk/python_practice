@@ -1,0 +1,35 @@
+import os
+import cv2
+from ultralytics import YOLO
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+os.chdir(HERE)
+NUMBER = 2
+FILE_NAME = ""
+PHOTO_DIR = "test_images"
+if not os.path.isdir(PHOTO_DIR):
+    raise FileNotFoundError("test_images 폴더가 없습니다.")
+photo_names = sorted(name for name in os.listdir(PHOTO_DIR)
+                     if name.lower().endswith((".jpg", ".jpeg", ".png")))
+if not photo_names:
+    raise FileNotFoundError("test_images 폴더에 JPG, JPEG, PNG 사진이 없습니다.")
+
+if FILE_NAME:
+    if FILE_NAME not in photo_names:
+        raise FileNotFoundError(f"test_images 폴더에 '{FILE_NAME}' 사진이 없습니다.")
+    NUMBER = photo_names.index(FILE_NAME) + 1
+if not 1 <= NUMBER <= len(photo_names):
+    raise ValueError(f"NUMBER는 1부터 {len(photo_names)} 사이여야 합니다.")
+PHOTO = os.path.join(PHOTO_DIR, photo_names[NUMBER - 1])
+WEIGHT = "best.pt"
+model = YOLO(WEIGHT)
+result = model.predict(PHOTO, conf=0.25, verbose=False)[0]
+print("사진 번호:", NUMBER, "/", len(photo_names), photo_names[NUMBER - 1])
+for box in result.boxes:
+    print(model.names[int(box.cls)], f"점수 {float(box.conf):.2f}")
+os.makedirs("results", exist_ok=True)
+prefix = "base" if WEIGHT == "yolo26n.pt" else "mine"
+output = os.path.join("results", f"{prefix}_{NUMBER}.jpg")
+if not cv2.imwrite(output, result.plot()):
+    raise OSError("결과 그림을 저장하지 못했습니다: " + output)
+print("저장:", output)
